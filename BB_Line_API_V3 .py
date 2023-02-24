@@ -90,7 +90,4 @@ while True:
         send_line_alert(line_token,"An error occurred. Retrying in 1 minute")
         time.sleep(60) # wait for 1 minute before retrying
 
-
-
-
   
