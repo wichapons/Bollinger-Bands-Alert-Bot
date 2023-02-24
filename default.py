@@ -4,12 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# set up initial timer value and flag variables
-last_alert_time = 0
-upper_alert_triggered = False
-upper_middle_alert_triggered = False
-lower_middle_alert_triggered = False
-lower_alert_triggered = False
+
 
 # set the Binance API key and secret
 binance_api_key = os.getenv('API_KEY')

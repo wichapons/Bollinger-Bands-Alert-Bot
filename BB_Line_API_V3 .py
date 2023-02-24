@@ -1,29 +1,35 @@
-import time
-from line_alert import send_line_alert
 from default import *
-from wait_duration import*
 from candle_data import *
+from line_alert import send_line_alert
+from wait_duration import *
+from BB_logic_check import highCandleHitMidBB
+import time
+
+# set up initial timer value and flag variables
+last_alert_time = 0
+upper_alert_triggered = False
+upper_middle_alert_triggered = False
+lower_middle_alert_triggered = False
+lower_alert_triggered = False
 
 while True:
     try:
         # wait until next quarter hour
         time.sleep(wait_time)
-
         # check if the Bollinger Bands are contracting
         if upper_bb[-1] - lower_bb[-1] < middle_bb[-1]:
-
             # check if the current highest price candle hits the middle Bollinger Band line
             if high_prices[-1] > middle_bb[-1]:
                 # check if the upper alert has not been triggered yet
                 if not upper_middle_alert_triggered:
-                    # send the alert via Line API
+                     # send the alert via Line API
                     send_line_alert(line_token, f"{symbol}, High candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     # set the upper alert triggered flag
                     upper_middle_alert_triggered = True
             else:
                 # reset the upper alert triggered flag
                 upper_middle_alert_triggered = False
-            
+
             # check if the current lowest price candle hits the middle Bollinger Band line
             if low_prices[-1] < middle_bb[-1]:
                 # check if the upper alert has not been triggered yet
