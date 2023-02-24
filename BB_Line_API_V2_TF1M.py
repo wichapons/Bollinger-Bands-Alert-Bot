@@ -34,7 +34,6 @@ def send_line_alert(line_token, message):
 
 #send_line_alert(line_token,'hello world, Phuwit')
 i=0
-    
 
 while True:
     try:
