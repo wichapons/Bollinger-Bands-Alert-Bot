@@ -83,6 +83,7 @@ while True:
                 else:
                     # reset the upper alert triggered flag
                     lower_alert_triggered = False
+    
     except:
         # handle any errors
         print("An error occurred.")
