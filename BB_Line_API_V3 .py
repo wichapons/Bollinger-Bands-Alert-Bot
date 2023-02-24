@@ -4,22 +4,36 @@ from line_alert import send_line_alert
 from wait_duration import *
 from BB_logic_check import highCandleHitMidBB
 import time
+import datetime
 
 # set up initial timer value and flag variables
-last_alert_time = 0
 upper_alert_triggered = False
 upper_middle_alert_triggered = False
 lower_middle_alert_triggered = False
 lower_alert_triggered = False
 
+current_time = datetime.datetime.now()
+current_minute = current_time.minute
+
 while True:
     try:
+        if current_minute < 15:
+            wait_time = (15 - current_minute) * 60 - current_time.second
+        elif current_minute < 30:
+           wait_time = (30 - current_minute) * 60 - current_time.second
+        elif current_minute < 45:
+            wait_time = (45 - current_minute) * 60 - current_time.second
+        else:
+            wait_time = (60 - current_minute) * 60 - current_time.second 
+        
+
+        print(f'next notify in {wait_time/60} minutes')
         # wait until next quarter hour
         time.sleep(wait_time)
         # check if the Bollinger Bands are contracting
         if upper_bb[-1] - lower_bb[-1] < middle_bb[-1]:
             # check if the current highest price candle hits the middle Bollinger Band line
-            if high_prices[-1] > middle_bb[-1]:
+            if high_prices[-1] > middle_bb[-1] :
                 # check if the upper alert has not been triggered yet
                 if not upper_middle_alert_triggered:
                      # send the alert via Line API
@@ -31,7 +45,7 @@ while True:
                 upper_middle_alert_triggered = False
 
             # check if the current lowest price candle hits the middle Bollinger Band line
-            if low_prices[-1] < middle_bb[-1]:
+            if low_prices[-1] < middle_bb[-1] :
                 # check if the upper alert has not been triggered yet
                 if not lower_middle_alert_triggered:
                     # send the alert via Line API
@@ -68,7 +82,7 @@ while True:
     except:
         # handle any errors
         print("An error occurred.")
-        send_line_alert(line_token,"An error occurred. Retrying in 1 minute")
+        #send_line_alert(line_token,"An error occurred. Retrying in 1 minute")
         time.sleep(60) # wait for 1 minute before retrying
 
 

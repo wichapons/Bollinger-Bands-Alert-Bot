@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
-
 # set the Binance API key and secret
 binance_api_key = os.getenv('API_KEY')
 binance_api_secret = os.getenv('API_SECRET')
