@@ -14,6 +14,11 @@ last_alert_time = 0
 lower_alert_triggered = False
 middle_alert_triggered = False
 
+# set up initial timer value and flag variables
+last_alert_time = 0
+lower_alert_triggered = False
+middle_alert_triggered = False
+
 # set the Binance API key and secret
 binance_api_key = os.getenv('API_KEY')
 binance_api_secret = os.getenv('API_SECRET')
@@ -55,6 +60,7 @@ while True:
         # update data
         candle_data = client.futures_klines(symbol=symbol, interval=timeframe, limit=bb_period+1)
         low_prices = np.array([float(x[4]) for x in candle_data])
+        high_prices = np.array([float(x[2]) for x in candle_data])
         high_prices = np.array([float(x[2]) for x in candle_data])
         upper_bb, middle_bb, lower_bb = talib.BBANDS(low_prices, timeperiod=bb_period, nbdevup=bb_stddev, nbdevdn=bb_stddev, matype=0)
 
