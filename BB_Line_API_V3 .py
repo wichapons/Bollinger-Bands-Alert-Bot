@@ -1,7 +1,6 @@
 from default import *
 from candle_data import *
 from line_alert import send_line_alert
-from wait_duration import *
 from BB_logic_check import highCandleHitMidBB
 import time
 import datetime
