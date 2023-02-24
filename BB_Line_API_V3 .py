@@ -68,9 +68,9 @@ while True:
                     send_line_alert(line_token, f"{symbol}, High candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     # set the upper alert triggered flag
                     middle_alert_triggered = True
-                else:
-                    # reset the upper alert triggered flag
-                    middle_alert_triggered = False
+            else:
+                # reset the upper alert triggered flag
+                middle_alert_triggered = False
 
             # check if the current candle hits the lower bound Bollinger Band line
             if low_prices[-1] < lower_bb[-1]:
@@ -80,9 +80,9 @@ while True:
                     send_line_alert(line_token, f"{symbol}, Lowest price: {low_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
                     # set the upper alert triggered flag
                     lower_alert_triggered = True
-                else:
-                    # reset the upper alert triggered flag
-                    lower_alert_triggered = False
+            else:
+                # reset the upper alert triggered flag
+                lower_alert_triggered = False
     
     except:
         # handle any errors
