@@ -1,7 +1,6 @@
 import os
 from binance.client import Client
 from dotenv import load_dotenv
-
 load_dotenv()
 
 # set the Binance API key and secret
@@ -18,4 +17,6 @@ bb_stddev = 2
 # create a Binance client
 client = Client(api_key=binance_api_key, api_secret=binance_api_secret)
 
-
+# set the symbol and timeframe
+symbol = "BNBUSDT"
+timeframe = "1h"
