@@ -48,8 +48,7 @@ while True:
         current_minute = current_time.minute
 
         # calculate time until next hour
-        if current_minute < 60:
-            wait_time = ((60 - current_minute) * 60 - current_time.second)+5  #add 5 sec delay prevent .json data is not ready in time
+        wait_time=2
         print(f'next notify in {wait_time/60} minutes')
         # wait until next quarter hour
         time.sleep(wait_time)
@@ -119,7 +118,6 @@ while True:
         print("An error occurred.")
         send_line_alert(line_token,"An error occurred. Retrying in 1 minute")
         time.sleep(60) # wait for 1 minute before retrying
-
 
 
 
