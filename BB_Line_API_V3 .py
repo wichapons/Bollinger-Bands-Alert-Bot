@@ -7,10 +7,14 @@ from candle_data import candleData
 load_dotenv()
 
 # set up initial timer value and flag variables
-last_alert_time, upper_alert_triggered, upper_middle_alert_triggered, lower_middle_alert_triggered, lower_alert_triggered = 0, False, False, False, False
+last_alert_time, upper_alert_triggered, upper_middle_alert_triggered, lower_middle_alert_triggered, lower_alert_triggered,bot_status = 0, False, False, False, False,0
 
 while True:
     try:
+        if bot_status == 0:
+            send_line_alert('bot had been restarted successfully')
+            bot_status = 1
+        
         wait_time = waitTime()  #get the value from def waitTime
         print(f'next notify in {wait_time/60} minutes')
         time.sleep(wait_time)
