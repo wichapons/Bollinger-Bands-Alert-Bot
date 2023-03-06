@@ -75,7 +75,6 @@ while True:
                 # reset the upper alert triggered flag
                 upper_middle_alert_triggered = False
             
-
             # check if the current lowest price candle hits the middle Bollinger Band line
             if low_prices[-1] < middle_bb[-1]:
                 # check if the upper alert has not been triggered yet
