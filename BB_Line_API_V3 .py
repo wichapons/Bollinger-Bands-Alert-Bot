@@ -1,8 +1,6 @@
-import talib
-import numpy as np
 import time
 from dotenv import load_dotenv
-from config import *
+from config import symbol,timeframe
 from line_alert import send_line_alert
 from wait_duration import waitTime
 from candle_data import candleData
