@@ -1,6 +1,7 @@
 import requests
 from config import line_token
 
+
 # function to send a Line API alert
 def send_line_alert(message):
     url = "https://notify-api.line.me/api/notify"

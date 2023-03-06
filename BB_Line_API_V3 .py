@@ -7,6 +7,7 @@ from binance.client import Client
 from dotenv import load_dotenv
 from config import *
 import datetime
+from line_alert import send_line_alert
 load_dotenv()
 
 # set up initial timer value and flag variables
@@ -15,13 +16,6 @@ upper_alert_triggered = False
 upper_middle_alert_triggered = False
 lower_middle_alert_triggered = False
 lower_alert_triggered = False
-
-# function to send a Line API alert
-def send_line_alert(line_token, message):
-    url = "https://notify-api.line.me/api/notify"
-    headers = {"Authorization": "Bearer " + line_token}
-    payload = {"message": message}
-    r = requests.post(url, headers=headers, data=payload)
 
 while True:
     try:
@@ -49,7 +43,7 @@ while True:
                 # check if the upper alert has not been triggered yet
                 if not upper_middle_alert_triggered:
                     # send the alert via Line API
-                    send_line_alert(line_token, f"{symbol}, High candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
+                    send_line_alert(f"{symbol}, High candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     # set the upper alert triggered flag
                     upper_middle_alert_triggered = True
             else:
@@ -62,7 +56,7 @@ while True:
                 # check if the upper alert has not been triggered yet
                 if not lower_middle_alert_triggered:
                     # send the alert via Line API
-                    send_line_alert(line_token, f"{symbol}, Low candle price: {low_prices[-1]}, timeframe: {timeframe}, hit middle BB")
+                    send_line_alert( f"{symbol}, Low candle price: {low_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     # set the upper alert triggered flag
                     lower_middle_alert_triggered = True
             else:
@@ -74,7 +68,7 @@ while True:
                 
                 if not lower_alert_triggered:
                     # send the alert via Line API
-                    send_line_alert(line_token, f"{symbol}, Lowest price: {low_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
+                    send_line_alert( f"{symbol}, Lowest price: {low_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
                     # set the upper alert triggered flag
                     lower_alert_triggered = True
             else:
@@ -86,7 +80,7 @@ while True:
                 
                 if not upper_alert_triggered:
                     # send the alert via Line API
-                    send_line_alert(line_token, f"{symbol}, Lowest price: {high_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
+                    send_line_alert( f"{symbol}, Lowest price: {high_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
                     # set the upper alert triggered flag
                     upper_alert_triggered = True
             else:
@@ -98,7 +92,7 @@ while True:
     except:
         # handle any errors
         print("An error occurred.")
-        send_line_alert(line_token,"An error occurred. Retrying in 1 minute")
+        send_line_alert("An error occurred. Retrying in 1 minute")
         time.sleep(60) # wait for 1 minute before retrying
 
 
