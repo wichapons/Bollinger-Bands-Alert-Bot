@@ -1,13 +1,11 @@
 import talib
 import numpy as np
-import requests
-import json
 import time
-from binance.client import Client
 from dotenv import load_dotenv
 from config import *
-import datetime
 from line_alert import send_line_alert
+from wait_duration import waitTime
+from candle_data import candleData
 load_dotenv()
 
 # set up initial timer value and flag variables
@@ -19,21 +17,12 @@ lower_alert_triggered = False
 
 while True:
     try:
-        # get current minute value
-        current_time = datetime.datetime.now()
-        current_minute = current_time.minute
-
-        # calculate time until next hour
-        wait_time=2
+        wait_time = waitTime()  #get the value from def waitTime
         print(f'next notify in {wait_time/60} minutes')
-        # wait until next quarter hour
         time.sleep(wait_time)
 
         # update data
-        candle_data = client.futures_klines(symbol=symbol, interval=timeframe, limit=bb_period+1)
-        low_prices = np.array([float(x[4]) for x in candle_data])
-        high_prices = np.array([float(x[2]) for x in candle_data])
-        upper_bb, middle_bb, lower_bb = talib.BBANDS(low_prices, timeperiod=bb_period, nbdevup=bb_stddev, nbdevdn=bb_stddev, matype=0)
+        upper_bb, middle_bb, lower_bb,low_prices,high_prices = candleData()
 
         # check if the Bollinger Bands are contracting
         if upper_bb[-1] - lower_bb[-1] < middle_bb[-1]:
@@ -42,7 +31,6 @@ while True:
             if high_prices[-1] > middle_bb[-1]:
                 # check if the upper alert has not been triggered yet
                 if not upper_middle_alert_triggered:
-                    # send the alert via Line API
                     send_line_alert(f"{symbol}, High candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     # set the upper alert triggered flag
                     upper_middle_alert_triggered = True
@@ -55,7 +43,6 @@ while True:
             if low_prices[-1] < middle_bb[-1]:
                 # check if the upper alert has not been triggered yet
                 if not lower_middle_alert_triggered:
-                    # send the alert via Line API
                     send_line_alert( f"{symbol}, Low candle price: {low_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     # set the upper alert triggered flag
                     lower_middle_alert_triggered = True
@@ -67,7 +54,6 @@ while True:
             if low_prices[-1] < lower_bb[-1]:
                 
                 if not lower_alert_triggered:
-                    # send the alert via Line API
                     send_line_alert( f"{symbol}, Lowest price: {low_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
                     # set the upper alert triggered flag
                     lower_alert_triggered = True
@@ -78,8 +64,7 @@ while True:
              # check if the current candle hits the upper bound Bollinger Band line
             if high_prices[-1] > upper_bb[-1]:
                 
-                if not upper_alert_triggered:
-                    # send the alert via Line API
+                if not upper_alert_triggered:                  
                     send_line_alert( f"{symbol}, Lowest price: {high_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
                     # set the upper alert triggered flag
                     upper_alert_triggered = True
