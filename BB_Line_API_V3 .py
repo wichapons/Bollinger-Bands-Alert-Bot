@@ -26,7 +26,7 @@ while True:
 
             if high_prices[-1] > middle_bb[-1]:
                 if not upper_middle_alert_triggered:
-                    send_line_alert(f"{symbol}, High candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
+                    send_line_alert(f"{symbol}, Highest candle price: {high_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     upper_middle_alert_triggered = True
             else:
                 # reset the upper alert triggered flag
@@ -34,7 +34,7 @@ while True:
             
             if low_prices[-1] < middle_bb[-1]:
                 if not lower_middle_alert_triggered:
-                    send_line_alert( f"{symbol}, Low candle price: {low_prices[-1]}, timeframe: {timeframe}, hit middle BB")
+                    send_line_alert( f"{symbol}, Lowest candle price: {low_prices[-1]}, timeframe: {timeframe}, hit middle BB")
                     lower_middle_alert_triggered = True
             else:
                 # reset the upper alert triggered flag
@@ -50,7 +50,7 @@ while True:
 
             if high_prices[-1] > upper_bb[-1]:                
                 if not upper_alert_triggered:                  
-                    send_line_alert( f"{symbol}, Lowest price: {high_prices[-1]}, timeframe: {timeframe}, hit lower BB.")
+                    send_line_alert( f"{symbol}, Highest price: {high_prices[-1]}, timeframe: {timeframe}, hit upper BB.")
                     upper_alert_triggered = True
             else:
                 # reset the upper alert triggered flag
