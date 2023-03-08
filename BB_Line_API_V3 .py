@@ -11,11 +11,12 @@ last_alert_time, upper_alert_triggered, upper_middle_alert_triggered, lower_midd
 
 while True:
     try:
+        wait_time = waitTime()  #get the value from def waitTime
+
         if bot_status == 0:
-            send_line_alert('bot had been restarted successfully')
+            send_line_alert(f'bot had been restarted successfully, next alert will begin in {wait_time/60} minutes ')
             bot_status = 1  
                  
-        wait_time = waitTime()  #get the value from def waitTime
         print(f'next notify in {wait_time/60} minutes')
         time.sleep(wait_time)
         # update data
